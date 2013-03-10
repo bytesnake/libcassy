@@ -1,5 +1,11 @@
-#ifndef CA_FUNCTIONS_HEADER
-#define CA_FUNCTIONS_HEADER
+#ifndef CA_FUNCTIONS_H
+#define CA_FUNCTIONS_H
+
+#include "libcassy.h"
+
+//
+// ca_utility.c
+//
 
 void CA_Reset( ca_cassy_t cassy );
 uint16_t CA_GetHardwareVersion( ca_cassy_t cassy );
@@ -19,13 +25,15 @@ void CA_SetHSTG( ca_cassy_t cassy, uint8_t hstg );
 struct tm CA_GetDateTime( ca_cassy_t cassy );
 void CA_SetDateTime( ca_cassy_t cassy, struct tm time );
 
-// TODO: ReadDataLogger
-
 uint8_t CA_GetSlaveAddress( ca_cassy_t cassy );
 void CA_SetSlaveAddress( ca_cassy_t cassy, uint8_t addr );
 bool CA_GetSlaveActive( ca_cassy_t cassy );
 
 void CA_SetWatchdog( ca_cassy_t cassy, bool watchdog );
+
+//
+// ca_analog.c
+//
 
 int8_t CA_GetSensorBoxA( ca_cassy_t cassy );
 int8_t CA_GetSensorBoxB( ca_cassy_t cassy );
@@ -47,8 +55,6 @@ float CA_GetValueB( ca_cassy_t cassy );
 float CA_GetValueX( ca_cassy_t cassy );
 float CA_GetValueY( ca_cassy_t cassy );
 
-// TODO: special sensor boxes
-
 ca_mmms_t CA_GetMMMSInputValueA( ca_cassy_t cassy, ca_range_t range );
 ca_mmms_t CA_GetMMMSInputValueB( ca_cassy_t cassy, ca_range_t range );
 ca_mmms_t CA_GetMMMSValueUI( ca_cassy_t cassy, ca_range_t range );
@@ -57,6 +63,7 @@ ca_mmms_t CA_GetMMMSValueIU( ca_cassy_t cassy, ca_range_t range );
 ca_mmms_t CA_GetMMMSValueA( ca_cassy_t cassy );
 ca_mmms_t CA_GetMMMSValueB( ca_cassy_t cassy );
 ca_mmms_t CA_GetMMMSValueX( ca_cassy_t cassy );
+ca_mmms_t CA_GetMMMSValueY( ca_cassy_t cassy );
 
 float CA_GetCosInputValueAB( ca_cassy_t cassy, ca_range_t range );
 float CA_GetCosValueUI( ca_cassy_t cassy, ca_range_t range );
@@ -70,9 +77,17 @@ void CA_SendSerialSensorDataB( ca_cassy_t cassy, uint8_t bits, uint16_t data );
 
 void CA_SetMeanTime( ca_cassy_t cassy, uint16_t time );
 
+//
+// ca_relay.c
+//
+
 void CA_SetRelayVoltage( ca_cassy_t cassy, uint8_t relvol );
 void CA_SetRelay( ca_cassy_t cassy, uint8_t relay );
 void CA_SetVoltage( ca_cassy_t cassy, uint8_t voltage );
+
+//
+// ca_digital.c
+//
 
 uint8_t CA_GetBitInput( ca_cassy_t cassy, uint8_t bit );
 void CA_SetBitOutput( ca_cassy_t cassy, uint8_t bit, uint8_t value );
@@ -95,6 +110,10 @@ ca_mpos_t CA_GetLogicalPosition( ca_cassy_t cassy );
 void CA_MoveToAbsPosition( ca_cassy_t cassy, ca_mpos_t position );
 void CA_MoveToRelPosition( ca_cassy_t cassy, ca_mpos_t position );
 
+//
+// ca_oscilloscope.c
+//
+
 void CA_ResetOscilloscope( ca_cassy_t cassy, uint16_t dt, uint16_t n, uint8_t trigger, uint16_t trigval );
 void CA_ResetOscilloscope2( ca_cassy_t cassy, uint32_t dt, uint16_t mean, uint32_t n0, uint32_t n1, uint8_t mask, uint8_t trigger, uint16_t trigval );
 
@@ -114,7 +133,5 @@ ca_oarray_t CA_GetOscilloscopeArrayY( ca_cassy_t cassy, ca_range_t range, uint16
 
 ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
 ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
-
-// TODO: lots of other functions
 
 #endif
