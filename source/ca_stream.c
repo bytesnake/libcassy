@@ -23,6 +23,9 @@ void CA_ResizeStream( ca_stream_t *stream, int length )
 
 void CA_FreeStream( ca_stream_t *stream )
 {
+	if ( stream->length == 0 )
+		return;
+
 	stream->length = 0;
 	stream->offset = 0;
 	free( stream->data );
@@ -34,12 +37,16 @@ ca_oarray_t CA_AllocateOscilloscopeArray( int length )
 
 	oarray.values = (float *) malloc( length * sizeof (float) );
 	oarray.length = length;
+	oarray.status = 0;
 
 	return oarray;
 }
 
 void CA_FreeOscilloscopeArray( ca_oarray_t *oarray )
 {
+	if ( oarray->length == 0 )
+		return;
+
 	oarray->status = 0;
 	oarray->length = 0;
 	free( oarray->values );

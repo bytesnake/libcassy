@@ -12,6 +12,9 @@ ca_data_t CA_AllocateData( int length )
 
 void CA_FreeData( ca_data_t *data )
 {
+	if ( data->length == 0 )
+		return;
+
 	data->length = 0;
 	free( data->data );
 }
@@ -112,6 +115,9 @@ ca_data_t CA_ReadSerialData( ca_data_t rawdata, int blocksize )
 			length = rawdata.data[ri++];
 		else
 			length = blocksize;
+
+		if ( ri + length > rawdata.length )
+			length = rawdata.length - ri;
 
 		CA_CopyData( serialdata, rawdata, si, ri, length );
 

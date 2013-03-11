@@ -107,6 +107,13 @@ typedef struct
 
 typedef struct
 {
+	uint8_t status;
+	size_t length;
+	float *values;
+} ca_oarray_t;
+
+typedef struct
+{
 	float min;
 	float max;
 	float mean;
@@ -147,13 +154,6 @@ typedef struct
 	uint32_t timelow;
 	uint16_t delay;
 } ca_otime2_t;
-
-typedef struct
-{
-	uint8_t status;
-	size_t length;
-	float *values;
-} ca_oarray_t;
 
 //
 // ca_misc.c
