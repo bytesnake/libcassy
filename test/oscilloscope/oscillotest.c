@@ -34,7 +34,7 @@ int main( int argc, char **argv )
 
 	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_10V, 0, interval );
 
-	printf( "# Oscilloscope data from %s - status %i\n", argv[1], oarray.status );
+	printf( "# Oscilloscope data from %s - interval: %i (ns), values: %i\n", argv[1], interval, values );
 
 	for ( i = 0; i < oarray.length; i++ )
 		printf( "%f\t%f\n", i * interval * 0.000001, oarray.values[i] );
