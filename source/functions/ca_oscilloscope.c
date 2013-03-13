@@ -100,7 +100,7 @@ ca_ostatus2_t CA_GetOscilloscopeStatus2( ca_cassy_t cassy )
 		memset( &ostatus, 0, sizeof ostatus );
 	else
 	{
-		ostatus.status = CA_ReadByteFromData( response, 0 );
+		ostatus.status = CA_ReadByteFromData( response, 1 );
 		ostatus.uia = CA_ReadIntFromData( response, 2 );
 		ostatus.uib = CA_ReadIntFromData( response, 6 );
 		ostatus.sensora = CA_ReadIntFromData( response, 10 );
