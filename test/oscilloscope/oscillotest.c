@@ -32,7 +32,7 @@ int main( int argc, char **argv )
 		usleep( 1000 * 500 );
 	} while ( ostatus.status != CA_OSTATUS_STOPPED );
 
-	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_01V, 0, interval );
+	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_01V, 0, values );
 
 	printf( "# Oscilloscope data from %s - interval: %i (ns), values: %i\n", argv[1], interval, values );
 
