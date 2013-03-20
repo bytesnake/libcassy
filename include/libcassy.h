@@ -1,6 +1,10 @@
 #ifndef LIBCASSY_H
 #define LIBCASSY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //
 // includes
 //
@@ -247,5 +251,9 @@ ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t serialdata, int rlen );
 
 #include "ca_functionids.h"
 #include "ca_functions.h"
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
