@@ -12,6 +12,8 @@ int main( int argc, char **argv )
 		return 0;
 	}
 
+	CA_Init();
+
 	handle = CA_GetDeviceHandle( argv[1] );
 	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
 
@@ -19,6 +21,8 @@ int main( int argc, char **argv )
 	printf( "Input B reads %f V.\n", CA_GetInputValueB( cassy, CA_RANGE_10V ) );
 
 	CA_CloseDeviceHandle( handle );
+
+	CA_Deinit();
 
 	return 0;
 }

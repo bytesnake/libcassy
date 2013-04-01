@@ -1,46 +1,5 @@
 #include "../include/libcassy.h"
 
-ca_handle_t CA_GetDeviceHandle( const char *node )
-{
-	ca_handle_t handle;
-
-	CA_ResetError();
-
-	handle = open( node, O_RDWR );
-
-	if ( handle == -1 )
-		CA_SetLastError( CA_ERROR_IO_OPEN );
-
-	return handle;
-}
-
-void CA_CloseDeviceHandle( ca_handle_t handle )
-{
-	int result;
-
-	CA_ResetError();
-
-	result = close( handle );
-
-	if ( result != 0 )
-		CA_SetLastError( CA_ERROR_IO_CLOSE );
-}
-
-ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
-{
-	ca_cassy_t cassy;
-
-	cassy.handle = handle;
-	cassy.id = id;
-	cassy.version = expected;
-
-	CA_Reset( cassy );
-
-	// cassy.version = CA_GetHardwareVersion( cassy ) >> 8;
-
-	return cassy;
-}
-
 #ifdef CA_DEBUG_NOWRITE
 
 void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
@@ -53,7 +12,7 @@ void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
 void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
 {
 	ca_data_t rawdata;
-	int blocksize, offset, length;
+	int blocksize, offset;
 
 	CA_ResetError();
 
@@ -62,13 +21,10 @@ void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
 
 	for ( offset = 0; offset < rawdata.length; offset += blocksize )
 	{
-		length = write( cassy.handle, rawdata.data + offset, blocksize );
+		CA_SendData( cassy.handle, rawdata.data + offset, blocksize );
 
-		if ( length != blocksize )
-		{
-			CA_SetLastError( CA_ERROR_IO_WRITE );
+		if ( CA_GetLastError() != CA_ERROR_SUCCESS )
 			break;
-		}
 
 		usleep( 1000 * CA_USB_DELAY );
 	}
@@ -96,7 +52,7 @@ ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen )
 ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen )
 {
 	ca_data_t response, serialdata;
-	int blocksize, length;
+	int blocksize;
 
 	CA_ResetError();
 
@@ -107,13 +63,10 @@ ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen )
 
 	do
 	{
-		length = read( cassy.handle, response.data, blocksize );
+		CA_RecvData( cassy.handle, response.data, blocksize );
 
-		if ( length != blocksize )
-		{
-			CA_SetLastError( CA_ERROR_IO_READ );
+		if ( CA_GetLastError() != CA_ERROR_SUCCESS )
 			break;
-		}
 
 		CA_AppendSerialData( &serialdata, &response, blocksize );
 
@@ -147,7 +100,7 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 	ca_oarray_t oarray;
 	ca_stream_t stream;
 	ca_data_t response, serialdata;
-	int blocksize, length, i;
+	int blocksize, i;
 	uint8_t status, ob;
 	bool overflow, finished;
 
@@ -167,13 +120,10 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 
 	while ( !finished )
 	{
-		length = read( cassy.handle, response.data, blocksize );
+		CA_RecvData( cassy.handle, response.data, blocksize );
 
-		if ( length != blocksize )
-		{
-			CA_SetLastError( CA_ERROR_IO_READ );
+		if ( CA_GetLastError() != CA_ERROR_SUCCESS )
 			break;
-		}
 
 		serialdata = CA_ReadSerialData( response, blocksize );
 

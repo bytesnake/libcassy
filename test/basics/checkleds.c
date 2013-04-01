@@ -14,6 +14,8 @@ int main( int argc, char **argv )
 		return 0;
 	}
 
+	CA_Init();
+
 	handle = CA_GetDeviceHandle( argv[1] );
 	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
 
@@ -29,6 +31,8 @@ int main( int argc, char **argv )
 	CA_SetValue( cassy, 3, 127 );
 
 	CA_CloseDeviceHandle( handle );
+
+	CA_Deinit();
 
 	return 0;
 }

@@ -47,6 +47,8 @@ const char *CA_ErrorToString( ca_error_t error )
 		return "CA_ERROR_CASSY_UNDERFLOW";
 	case CA_ERROR_STREAM_INVALID:
 		return "CA_ERROR_STREAM_INVALID";
+	case CA_ERROR_IO_INIT:
+		return "CA_ERROR_IO_INIT";
 	case CA_ERROR_IO_OPEN:
 		return "CA_ERROR_IO_OPEN";
 	case CA_ERROR_IO_CLOSE:

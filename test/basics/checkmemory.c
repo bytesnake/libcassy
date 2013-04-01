@@ -12,6 +12,8 @@ int main( int argc, char **argv )
 		return 0;
 	}
 
+	CA_Init();
+
 	handle = CA_GetDeviceHandle( argv[1] );
 	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
 
@@ -24,6 +26,8 @@ int main( int argc, char **argv )
 	printf( "Memory at location 0x4242 reads: %i.\n", CA_ReadUserData( cassy, 0x4242 ) );
 
 	CA_CloseDeviceHandle( handle );
+
+	CA_Deinit();
 
 	return 0;
 }

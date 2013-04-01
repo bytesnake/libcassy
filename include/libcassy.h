@@ -22,13 +22,27 @@ extern "C" {
 #include <fcntl.h>
 #include <unistd.h>
 
+#ifdef CA_LIBUSB
+#ifdef CA_LOCAL
+#include <libusb.h>
+#endif
+#endif
+
 #include "ca_constants.h"
 
 //
 // data types
 //
 
+#ifdef CA_LIBUSB
+#ifdef CA_LOCAL
+typedef libusb_device_handle *ca_handle_t;
+#else
+typedef void *ca_handle_t;
+#endif
+#else // ifdef CA_DEVNODES
 typedef int ca_handle_t;
+#endif
 
 typedef enum
 {
@@ -55,6 +69,7 @@ typedef enum
 
 	CA_ERROR_STREAM_INVALID,
 
+	CA_ERROR_IO_INIT,
 	CA_ERROR_IO_OPEN,
 	CA_ERROR_IO_CLOSE,
 	CA_ERROR_IO_READ,
@@ -233,17 +248,27 @@ ca_oarray_t CA_StreamToOscilloscopeArray( ca_stream_t stream, ca_range_t range )
 // ca_inout.c
 //
 
-ca_handle_t CA_GetDeviceHandle( const char *node );
-void CA_CloseDeviceHandle( ca_handle_t handle );
-
-ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id );
-
 void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata );
 ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen );
 
 ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range );
 
 ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t serialdata, int rlen );
+
+//
+// ca_inout_*.c
+//
+
+void CA_Init();
+void CA_Deinit();
+
+ca_handle_t CA_GetDeviceHandle( const char *desc );
+void CA_CloseDeviceHandle( ca_handle_t handle );
+
+ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id );
+
+void CA_SendData( ca_handle_t handle, uint8_t *data, int length );
+void CA_RecvData( ca_handle_t handle, uint8_t *data, int length );
 
 //
 // functions
