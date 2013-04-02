@@ -15,6 +15,6 @@ nowrite:
 noread:
 	$(CC) -g $(CFLAGS) -DCA_DEVNODES -DCA_DEBUG_NOREAD $(SOURCES) ca_inout_devnodes.c $(LDFLAGS) -o $(OUTPUT)
 libusb:
-	$(CC) -g $(CFLAGS) -I/usr/include/libusb-1.0 -DCA_LIBUSB -DCA_DEBUG_PRINT $(SOURCES) ca_inout_libusb.c $(LDFLAGS) -lusb-1.0 -o $(OUTPUT) 
+	$(CC) -g $(CFLAGS) -I/usr/include/libusb-1.0 -DCA_LIBUSB $(SOURCES) ca_inout_libusb.c $(LDFLAGS) -lusb-1.0 -o $(OUTPUT) 
 clear:
 	rm -f $(OUTPUT)
