@@ -25,6 +25,8 @@ ca_handle_t CA_GetDeviceHandle( const char *desc )
 	uint16_t vid, pid;
 	ca_handle_t handle;
 
+	CA_ResetError();
+
 	vid = (uint16_t) strtoul( desc, &endptr, 16 );
 
 	if ( desc == endptr || *endptr == '\0' )
@@ -68,6 +70,8 @@ void CA_CloseDeviceHandle( ca_handle_t handle )
 ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 {
 	ca_cassy_t cassy;
+
+	CA_ResetError();
 
 	cassy.handle = handle;
 	cassy.id = id;
