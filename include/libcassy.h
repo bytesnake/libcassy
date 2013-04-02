@@ -51,6 +51,7 @@ typedef enum
 	CA_VERSION_SENSORCASSY2 = 3,
 	CA_VERSION_CASSYDISPLAY = 11,
 	CA_VERSION_MOBILECASSY = 12,
+	CA_VERSION_POCKETCASSY2 = 29,
 	CA_VERSION_JOULEWATTMETER = 32,
 	CA_VERSION_UMIP = 33,
 	CA_VERSION_UMIC = 34,
@@ -73,7 +74,8 @@ typedef enum
 	CA_ERROR_IO_OPEN,
 	CA_ERROR_IO_CLOSE,
 	CA_ERROR_IO_READ,
-	CA_ERROR_IO_WRITE
+	CA_ERROR_IO_WRITE,
+	CA_ERROR_IO_MISC
 } ca_error_t;
 
 typedef enum
@@ -110,6 +112,13 @@ typedef struct
 	ca_version_t version;
 	ca_handle_t handle;
 } ca_cassy_t;
+
+typedef struct
+{
+	char *idstr;
+	ca_version_t version;
+	bool id[8];
+} ca_device_t;
 
 typedef struct
 {
@@ -264,6 +273,9 @@ void CA_Deinit();
 
 ca_handle_t CA_GetDeviceHandle( const char *desc );
 void CA_CloseDeviceHandle( ca_handle_t handle );
+
+ca_device_t *CA_FindDevices();
+void CA_FreeDevices( ca_device_t *devices );
 
 ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id );
 

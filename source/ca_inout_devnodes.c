@@ -36,6 +36,18 @@ void CA_CloseDeviceHandle( ca_handle_t handle )
 		CA_SetLastError( CA_ERROR_IO_CLOSE );
 }
 
+ca_device_t *CA_FindDevices()
+{
+	// not implemented
+
+	return NULL;
+}
+
+void CA_FreeDevices( ca_device_t *devices )
+{
+	// not implemented
+}
+
 ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 {
 	ca_cassy_t cassy;

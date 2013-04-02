@@ -57,6 +57,8 @@ const char *CA_ErrorToString( ca_error_t error )
 		return "CA_ERROR_IO_READ";
 	case CA_ERROR_IO_WRITE:
 		return "CA_ERROR_IO_WRITE";
+	case CA_ERROR_IO_MISC:
+		return "CA_ERROR_IO_MISC";
 	}
 
 	return "CA_ERROR_UNKNOWN";
