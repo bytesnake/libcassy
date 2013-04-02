@@ -132,6 +132,6 @@ ca_oarray_t CA_GetOscilloscopeArrayX( ca_cassy_t cassy, ca_range_t range, uint16
 ca_oarray_t CA_GetOscilloscopeArrayY( ca_cassy_t cassy, ca_range_t range, uint16_t start, uint16_t count, uint16_t delta );
 
 ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
-ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
+ca_oarray_t CA_GetOscilloscopeArray2B( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
 
 #endif
