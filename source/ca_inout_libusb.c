@@ -4,12 +4,12 @@ void CA_Init()
 {
 	CA_ResetError();
 
+	if ( libusb_init( NULL ) != 0 )
+		CA_SetLastError( CA_ERROR_IO_INIT );
+
 #ifdef CA_DEBUG_PRINT
 	libusb_set_debug( NULL, 3 );
 #endif
-
-	if ( libusb_init( NULL ) != 0 )
-		CA_SetLastError( CA_ERROR_IO_INIT );
 }
 
 void CA_Deinit()
@@ -46,11 +46,20 @@ ca_handle_t CA_GetDeviceHandle( const char *desc )
 	handle = libusb_open_device_with_vid_pid( NULL, vid, pid );
 
 	if ( handle == NULL )
+	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
+		printf( "handle\n" );
+	}
 	else if ( libusb_detach_kernel_driver( handle, 0 ) != 0 )
+	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
+		printf( "kernel\n" );
+	}
 	else if ( libusb_claim_interface( handle, 0 ) != 0 )
+	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
+		printf( "interface\n" );
+	}
 
 	return handle;
 }
@@ -88,7 +97,7 @@ void CA_SendData( ca_handle_t handle, uint8_t *data, int length )
 
 	CA_ResetError();
 
-	if ( libusb_interrupt_transfer( handle, 0x01, data, length, &trans, CA_USB_TIMEOUT ) != 0 )
+	if ( libusb_interrupt_transfer( handle, 0x02, data, length, &trans, CA_USB_TIMEOUT ) != 0 )
 		CA_SetLastError( CA_ERROR_IO_WRITE );
 }
 

@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-g -I../../include
-LDFLAGS=-L../../binary -lcassy -Wl,-rpath=../../binary
+LDFLAGS=-L../../binary -lcassy -lusb-1.0 -Wl,-rpath=../../binary
 
 clean:
-	rm -f checkleds checkmemory relay
+	rm -f checkleds checkmemory relay squaresrc
 %:
 	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -o $@
