@@ -70,21 +70,14 @@ ca_handle_t CA_GetDeviceHandle( const char *desc )
 
 	handle = libusb_open_device_with_vid_pid( NULL, vid, pid );
 
+	// reset device?
+
 	if ( handle == NULL )
-	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
-		printf( "handle\n" );
-	}
 	else if ( libusb_detach_kernel_driver( handle, 0 ) != 0 )
-	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
-		printf( "kernel\n" );
-	}
 	else if ( libusb_claim_interface( handle, 0 ) != 0 )
-	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
-		printf( "interface\n" );
-	}
 
 	return handle;
 }
