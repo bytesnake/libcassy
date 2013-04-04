@@ -50,7 +50,7 @@ int main( int argc, char **argv )
 
 	CA_GetInputValueA( cassy, CA_RANGE_10V );
 
-	CA_ResetOscilloscope2( cassy, interval, 1, 0, 100000, CA_OMASK_4MMSOCKA, CA_OTRIG_IMMEDIATE, 0 );
+	CA_ResetOscilloscope2( cassy, interval, 1, 0, values, CA_OMASK_4MMSOCKA, CA_OTRIG_IMMEDIATE, 0 );
 	CA_StartOscilloscope( cassy );
 
 	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_10V, 0, values );

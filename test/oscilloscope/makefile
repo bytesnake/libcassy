@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-x c -g -I../../include
+CFLAGS=-x c -g -I../../include -DCA_LIBUSB
 LDFLAGS=-L../../binary -lcassy -lusb-1.0 -Wl,-rpath=../../binary
 
 clean:

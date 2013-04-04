@@ -58,8 +58,6 @@ ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 	cassy.id = id;
 	cassy.version = expected;
 
-	CA_Reset( cassy );
-
 	// cassy.version = CA_GetHardwareVersion( cassy ) >> 8;
 
 	return cassy;

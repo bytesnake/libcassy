@@ -160,8 +160,6 @@ ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 	cassy.id = id;
 	cassy.version = expected; // could be inferred from the device pid
 
-	CA_Reset( cassy );
-
 	return cassy;
 }
 
