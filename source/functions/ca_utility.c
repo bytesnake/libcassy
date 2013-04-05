@@ -23,11 +23,11 @@ uint16_t CA_GetHardwareVersion( ca_cassy_t cassy )
 	if ( CA_IsCassyError( response ) )
 		version = 0x0000;
 	else
-		version = *(uint16_t *) (response.data + 1);
+		version = CA_ReadShortFromData( response, 1 );
 
 	CA_FreeData( &response );
 
-	return CA_SwitchShort( version );
+	return version;
 }
 
 uint16_t CA_GetFirmwareVersion( ca_cassy_t cassy )
@@ -43,11 +43,11 @@ uint16_t CA_GetFirmwareVersion( ca_cassy_t cassy )
 	if ( CA_IsCassyError( response ) )
 		version = 0x0000;
 	else
-		version = *(uint16_t *) (response.data + 1);
+		version = CA_ReadShortFromData( response, 1 );
 
 	CA_FreeData( &response );
 
-	return CA_SwitchShort( version );
+	return version;
 }
 
 void CA_EraseUserDataSector( ca_cassy_t cassy, uint16_t addr )
@@ -97,7 +97,7 @@ uint32_t CA_ReadUserData( ca_cassy_t cassy, uint16_t addr )
 
 	CA_FreeData( &response );
 
-	return CA_SwitchInt( data );
+	return data;
 }
 
 uint8_t CA_GetValue( ca_cassy_t cassy, uint8_t mode )
@@ -205,6 +205,8 @@ struct tm CA_GetDateTime( ca_cassy_t cassy )
 		time.tm_mon = CA_ReadByteFromData( response, 5 ) - 1;
 		time.tm_year = CA_ReadShortFromData( response, 6 );
 	}
+
+	CA_FreeData( &response );
 
 	return time;
 }
