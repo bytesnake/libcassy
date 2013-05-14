@@ -74,6 +74,9 @@ ca_handle_t CA_GetDeviceHandle( const char *desc )
 
 	if ( handle == NULL )
 		CA_SetLastError( CA_ERROR_IO_OPEN );
+	else if ( libusb_kernel_driver_active( handle, 0 )
+			&& libusb_detach_kernel_driver( handle, 0 ) != 0 )
+		CA_SetLastError( CA_ERROR_IO_OPEN );
 	else if ( libusb_detach_kernel_driver( handle, 0 ) != 0 )
 		CA_SetLastError( CA_ERROR_IO_OPEN );
 	else if ( libusb_claim_interface( handle, 0 ) != 0 )
