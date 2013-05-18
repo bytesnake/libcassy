@@ -74,8 +74,9 @@ void CA_Add3BitToStream( ca_stream_t *stream, uint8_t b )
 		CA_ResizeStream( stream, stream->length + CA_STREAM_CHUNKSIZE );
 
 	value = stream->offset < 1 ? 0 : stream->data[stream->offset - 1];
-
 	stream->data[stream->offset++] = value + CA_SignExtendByte( (b >> 3) & 0b111, 3 );
+	
+	value = stream->data[stream->offset];
 	stream->data[stream->offset++] = value + CA_SignExtendByte( b & 0b111, 3 );
 }
 
@@ -87,7 +88,6 @@ void CA_Add7BitToStream( ca_stream_t *stream, uint8_t b )
 		CA_ResizeStream( stream, stream->length + CA_STREAM_CHUNKSIZE );
 
 	value = stream->offset < 1 ? 0 : stream->data[stream->offset - 1];
-
 	stream->data[stream->offset++] = value + CA_SignExtendByte( b, 7 );
 }
 
@@ -104,10 +104,19 @@ ca_oarray_t CA_StreamToOscilloscopeArray( ca_stream_t stream, ca_range_t range )
 	ca_oarray_t oarray;
 	int i;
 
+	CA_ResetError();
+
 	oarray = CA_AllocateOscilloscopeArray( stream.offset );
 
 	for ( i = 0; i < stream.offset; i++ )
+	{
+		if ( stream.data[i] < -2000 )
+			CA_SetLastError( CA_ERROR_CASSY_UNDERFLOW );
+		else if ( stream.data[i] > 2000 )
+			CA_SetLastError( CA_ERROR_CASSY_OVERFLOW );
+
 		oarray.values[i] = CA_ConvertToRange( stream.data[i], range );
+	}
 
 	return oarray;
 }
