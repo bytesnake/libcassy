@@ -22,10 +22,18 @@ extern "C" {
 #include <fcntl.h>
 #include <unistd.h>
 
-#ifdef CA_LIBUSB
 #ifdef CA_LOCAL
+
+#ifdef CA_LIBUSB
 #include <libusb.h>
 #endif
+
+#ifdef CA_DEVNODES
+#include <linux/serial.h>
+#include <sys/ioctl.h>
+#include <termios.h>
+#endif
+
 #endif
 
 #include "ca_constants.h"
@@ -34,14 +42,21 @@ extern "C" {
 // data types
 //
 
-#ifdef CA_LIBUSB
 #ifdef CA_LOCAL
+
+#ifdef CA_LIBUSB
 typedef libusb_device_handle *ca_handle_t;
+#endif
+
+#ifdef CA_DEVNODES
+typedef struct {
+	int filedesc;
+	struct termios *settingsb; // for serial connections
+} *ca_handle_t;
+#endif
+
 #else
 typedef void *ca_handle_t;
-#endif
-#else // ifdef CA_DEVNODES
-typedef int ca_handle_t;
 #endif
 
 typedef enum
@@ -111,6 +126,7 @@ typedef struct
 	int id;
 	ca_version_t version;
 	ca_handle_t handle;
+	void *misc;
 } ca_cassy_t;
 
 typedef struct
