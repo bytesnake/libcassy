@@ -22,14 +22,8 @@ uint16_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length )
 {
 	ca_data_t command, response;
 	uint16_t count;
-	int i;
 
-	// no compression yet
-
-	command = CA_SetupCommandFrame( CA_FID_DEFINEWAVEFORM, length * sizeof (int16_t) );
-
-	for ( i = 0; i < length; i++ )
-		CA_WriteShortToData( command, 1 + 2 * i, values[i] );
+	command = CA_SetupStreamCommandFrame( CA_FID_DEFINEWAVEFORM, values, length );
 
 	response = CA_ExecuteCommand( cassy, command, 3 );
 	CA_FreeData( &command );

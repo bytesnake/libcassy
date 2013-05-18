@@ -120,3 +120,43 @@ ca_oarray_t CA_StreamToOscilloscopeArray( ca_stream_t stream, ca_range_t range )
 
 	return oarray;
 }
+
+ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length )
+{
+	ca_data_t data;
+	uint16_t tmp;
+	int i, j;
+
+	data = CA_AllocateData( length * 2 + 2 );
+	CA_WriteByteToData( data, 0, fid );
+	CA_WriteShortToData( data, 1, values[0] );
+
+	j = 3;
+
+	for ( i = 1; i < length; i++ )
+	{
+		if ( i < length - 1  && abs( values[i] - values[i - 1] ) < 4 && abs( values[i + 1] - values[i] ) < 4 )
+		{
+			tmp = 0b00000111 & (values[i + 1] - values[i]);
+			tmp |= 0b00111000 & ((values[i] - values[i - 1]) << 3);
+
+			CA_WriteByteToData( data, j, 0b01000000 | tmp);
+			j += 1;
+		}
+		else if ( abs( values[i] - values[i - 1] ) < 64 )
+		{
+			CA_WriteByteToData( data, j, 0b10000000 | (values[i] - values[i - 1]) );
+			j += 1;
+		}
+		else
+		{
+			CA_WriteShortToData( data, j, 0b0001111111111111 & values[i] );
+			j += 2;
+		}
+	}
+
+	CA_WriteByteToData( data, j, 0b0010000 ); // end of stream
+	data.length = j + 1;
+
+	return data;
+}

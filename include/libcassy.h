@@ -288,6 +288,8 @@ void CA_Add13BitToStream( ca_stream_t *stream, uint16_t s );
 
 ca_oarray_t CA_StreamToOscilloscopeArray( ca_stream_t stream, ca_range_t range );
 
+ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length );
+
 //
 // ca_inout.c
 //
