@@ -32,7 +32,7 @@ bool CA_GetSlaveActive( ca_cassy_t cassy );
 void CA_SetWatchdog( ca_cassy_t cassy, bool watchdog );
 
 //
-// ca_analog.c
+// ca_analogin.c
 //
 
 int8_t CA_GetSensorBoxA( ca_cassy_t cassy );
@@ -133,5 +133,28 @@ ca_oarray_t CA_GetOscilloscopeArrayY( ca_cassy_t cassy, ca_range_t range, uint16
 
 ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
 ca_oarray_t CA_GetOscilloscopeArray2B( ca_cassy_t cassy, ca_range_t range, uint32_t skip, uint32_t count );
+
+//
+// ca_analogout.c
+//
+
+void CA_SetOutputValueX( ca_cassy_t cassy, ca_range_t range, float value );
+void CA_LimitOutputRangeX( ca_cassy_t cassy, ca_range_t range, float min, float max );
+
+void CA_SetOutputValueY( ca_cassy_t cassy, float value );
+void CA_LimitOutputRangeY( ca_cassy_t cassy, float min, float max );
+
+//
+// ca_generator.c
+//
+
+void CA_ResetFunctionGenerator( ca_cassy_t cassy, ca_wave_t wave, uint32_t frequency, float amplitude, float offset, uint8_t ratio );
+
+uint16_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length );
+
+void CA_StartFunctionGenerator( ca_cassy_t cassy );
+void CA_StopFunctionGenerator( ca_cassy_t cassy );
+
+ca_gstatus_t CA_GetFunctionGeneratorStatus( ca_cassy_t cassy );
 
 #endif

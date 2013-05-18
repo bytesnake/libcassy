@@ -16,9 +16,9 @@ struct termios *CA_PrepareSerialDevice( int filedesc )
 	struct termios *settingsb;
 
 	CA_ResetError();
-	
+
 	settingsb = (struct termios *) malloc( sizeof (struct termios) );
-	
+
 	if ( tcgetattr( filedesc, settingsb ) < 0 )
 	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
@@ -49,16 +49,16 @@ ca_handle_t CA_GetDeviceHandle( const char *desc )
 	ca_handle_t handle;
 
 	CA_ResetError();
-	
+
 	handle = (ca_handle_t) malloc( sizeof *handle );
 	handle->filedesc = open( desc, O_RDWR | O_NOCTTY );
-	
+
 	if ( handle->filedesc == -1 )
 	{
 		CA_SetLastError( CA_ERROR_IO_OPEN );
 		return NULL;
 	}
-	
+
 	if ( ioctl( handle->filedesc, TIOCGSERIAL, &serinfo ) < 0 )
 		handle->settingsb = NULL;
 	else
@@ -75,7 +75,7 @@ void CA_CloseDeviceHandle( ca_handle_t handle )
 
 	result = close( handle->filedesc );
 	free( handle );
-	
+
 	if ( result != 0 )
 		CA_SetLastError( CA_ERROR_IO_CLOSE );
 }
@@ -100,7 +100,7 @@ ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 
 	cassy.handle = handle;
 	cassy.id = id;
-	
+
 	cassy.version = handle->settingsb != NULL ? CA_VERSION_SENSORCASSY : CA_VERSION_SENSORCASSY2;
 	cassy.version = CA_GetHardwareVersion( cassy ) >> 8;
 

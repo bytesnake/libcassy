@@ -56,4 +56,8 @@
 #define CA_OTRIG_RISING 1
 #define CA_OTRIG_FALLING 0
 
+#define CA_GSTATUS_RUNNING 0
+#define CA_GSTATUS_STOPPED 1
+#define CA_GSTATUS_INVALID 2
+
 #endif

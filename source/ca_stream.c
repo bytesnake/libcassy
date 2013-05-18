@@ -75,7 +75,7 @@ void CA_Add3BitToStream( ca_stream_t *stream, uint8_t b )
 
 	value = stream->offset < 1 ? 0 : stream->data[stream->offset - 1];
 	stream->data[stream->offset++] = value + CA_SignExtendByte( (b >> 3) & 0b111, 3 );
-	
+
 	value = stream->data[stream->offset];
 	stream->data[stream->offset++] = value + CA_SignExtendByte( b & 0b111, 3 );
 }

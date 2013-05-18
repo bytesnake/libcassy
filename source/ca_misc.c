@@ -110,6 +110,11 @@ float CA_ConvertToRange( int value, ca_range_t range )
 	return (float) value;
 }
 
+int CA_ConvertFromRange( float value, ca_range_t range )
+{
+	return (int) (value / CA_ConvertToRange( 1, range ));
+}
+
 float CA_ExtendToRange( uint32_t digits, int bits, ca_range_t range )
 {
 	return CA_ConvertToRange( CA_SignExtendInt( digits, bits ), range );

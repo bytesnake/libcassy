@@ -121,6 +121,17 @@ typedef enum
 	CA_SCLASS_UNKNOWN
 } ca_sclass_t;
 
+typedef enum
+{
+	CA_WAVE_DCOFFSET = 0,
+	CA_WAVE_SINE = 1,
+	CA_WAVE_SQUAREPM = 2,
+	CA_WAVE_SQUAREZERO = 3,
+	CA_WAVE_TRIANGLEPM = 4,
+	CA_WAVE_TRIANGLEZERO = 5,
+	CA_WAVE_USERDEFINED = 6
+} ca_wave_t;
+
 typedef struct
 {
 	int id;
@@ -199,6 +210,12 @@ typedef struct
 	uint16_t delay;
 } ca_otime2_t;
 
+typedef struct
+{
+	uint8_t status;
+	uint16_t counts;
+} ca_gstatus_t;
+
 //
 // ca_misc.c
 //
@@ -213,6 +230,8 @@ int32_t CA_SignExtendInt( uint32_t digits, int bits );
 uint8_t CA_GetCassyAddress( int id );
 
 float CA_ConvertToRange( int value, ca_range_t range );
+int CA_ConvertFromRange( float value, ca_range_t range );
+
 float CA_ExtendToRange( uint32_t digits, int bits, ca_range_t range );
 
 void CA_PrintData( ca_data_t data, char *desc );

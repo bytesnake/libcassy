@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-x c -shared -Wall -fPIC -DCA_LOCAL
 LDFLAGS=-lm -ldl
-SOURCES=ca_misc.c ca_error.c ca_data.c ca_stream.c ca_inout.c functions/ca_utility.c functions/ca_analog.c functions/ca_relay.c functions/ca_digital.c functions/ca_oscilloscope.c
+SOURCES=ca_misc.c ca_error.c ca_data.c ca_stream.c ca_inout.c functions/ca_utility.c functions/ca_analogin.c functions/ca_relay.c functions/ca_digital.c functions/ca_oscilloscope.c functions/ca_analogout.c functions/ca_generator.c
 OUTPUT=../binary/libcassy.so
 
 default:
