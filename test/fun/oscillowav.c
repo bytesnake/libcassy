@@ -2,7 +2,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <inttypes.h>
-#include <math.h>
 #include <libcassy.h>
 
 typedef struct __attribute__((__packed__)) riffheader_s
@@ -213,8 +212,6 @@ int main( int argc, char **argv )
 			oarray = CA_GetOscilloscopeArray2A( cassy, range, 0, values );
 		else
 			oarray = CA_GetOscilloscopeArray2B( cassy, range, 0, values );
-		
-		putchar( '.' );
 		
 		WriteWAVSamples( wavfile, oarray.values, amplitude, i + oarray.length > values ? values - i : oarray.length );
 		
