@@ -1,4 +1,4 @@
-#include <stdout.h>
+#include <stdio.h>
 #include <libcassy.h>
 
 int main( int argc, char **argv )
@@ -17,7 +17,7 @@ int main( int argc, char **argv )
 	handle = CA_GetDeviceHandle( argv[1] );
 	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
 
-	CA_SetOuputValueX( cassy, CA_RANGE_10V, atof( argv[2] ) );
+	CA_SetOutputValueX( cassy, CA_RANGE_10V, atof( argv[2] ) );
 
 	CA_CloseDeviceHandle( handle );
 
