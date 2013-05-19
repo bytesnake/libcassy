@@ -132,7 +132,6 @@ void CA_RecvData( ca_handle_t handle, uint8_t *data, int length );
 // cassy functions
 //
 
-#include "ca_functionids.h"
 #include "ca_functions.h"
 
 #ifdef __cplusplus

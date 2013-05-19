@@ -63,4 +63,12 @@
 #define CA_GSTATUS_STOPPED 1
 #define CA_GSTATUS_INVALID 2
 
+//
+// function ids
+//
+
+#ifdef CA_LOCAL
+#include "ca_functionids.h"
+#endif
+
 #endif
