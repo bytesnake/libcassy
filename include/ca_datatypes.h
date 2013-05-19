@@ -3,6 +3,10 @@
 
 #include "libcassy.h"
 
+//
+// internal datatypes
+//
+
 #ifdef CA_LOCAL
 
 #ifdef CA_LIBUSB
@@ -15,6 +19,19 @@ typedef struct {
 	struct termios *settingsb; // for serial connections
 } *ca_handle_t;
 #endif
+
+typedef struct
+{
+	int length;
+	uint8_t *data;
+} ca_data_t;
+
+typedef struct
+{
+	int length;
+	int offset;
+	int16_t *data;
+} ca_stream_t;
 
 #else
 typedef void *ca_handle_t;
@@ -107,19 +124,6 @@ typedef struct
 	ca_version_t version;
 	bool id[8];
 } ca_device_t;
-
-typedef struct
-{
-	int length;
-	uint8_t *data;
-} ca_data_t;
-
-typedef struct
-{
-	int length;
-	int offset;
-	int16_t *data;
-} ca_stream_t;
 
 typedef struct
 {

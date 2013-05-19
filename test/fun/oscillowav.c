@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <inttypes.h>
+#include <string.h>
 #include <libcassy.h>
 
 typedef struct __attribute__((__packed__)) riffheader_s

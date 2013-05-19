@@ -14,6 +14,10 @@
 // constants
 //
 
+// #define CA_LOCAL
+// #define CA_DEVNODES
+// #define CA_LIBUSB
+
 // #define CA_DEBUG_PRINT
 // #define CA_DEBUG_NOWRITE
 // #define CA_DEBUG_NOREAD
@@ -24,7 +28,6 @@
 #define CA_USB_ONEPACKET 0
 #define CA_USB_NORESPONSE 0
 #define CA_USB_TIMEOUT 1000
-#define CA_USB_DELAY 0
 
 #define CA_STREAM_CHUNKSIZE 256
 

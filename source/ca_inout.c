@@ -25,8 +25,6 @@ void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
 
 		if ( CA_GetLastError() != CA_ERROR_SUCCESS )
 			break;
-
-		usleep( 1000 * CA_USB_DELAY );
 	}
 
 #ifdef CA_DEBUG_PRINT
@@ -69,8 +67,6 @@ ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen )
 			break;
 
 		CA_AppendSerialData( &serialdata, &response, blocksize );
-
-		usleep( 1000 * CA_USB_DELAY );
 	} while ( serialdata.length < rlen );
 
 #ifdef CA_DEBUG_PRINT
@@ -186,8 +182,6 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 #endif
 
 		CA_FreeData( &serialdata );
-
-		usleep( 1000 * CA_USB_DELAY );
 	}
 
 	CA_FreeData( &response );
@@ -210,7 +204,7 @@ ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t serialdata, int rlen )
 
 	CA_SendSerialData( cassy, serialdata );
 
-	if ( CA_GetLastError() == CA_ERROR_SUCCESS && rlen != CA_USB_NORESPONSE )
+	if ( CA_GetLastError() == CA_ERROR_SUCCESS && rlen != CA_USB_NORESPONSE && cassy.id != 0x00 )
 		response = CA_RecvSerialData( cassy, rlen );
 
 	return response;

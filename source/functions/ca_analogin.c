@@ -520,7 +520,7 @@ float CA_GetCosInputValueAB( ca_cassy_t cassy, ca_range_t range )
 		p12 = CA_ConvertToRange( CA_ReadIntFromData( response, 9 ), range );
 	}
 
-	return p12 / sqrt( sq1 * sq2 );
+	return p12 * CA_RSqrt( sq1 * sq2 );
 }
 
 float CA_GetCosValueUI( ca_cassy_t cassy, ca_range_t range )
@@ -547,7 +547,7 @@ float CA_GetCosValueUI( ca_cassy_t cassy, ca_range_t range )
 		p12 = CA_ConvertToRange( CA_ReadIntFromData( response, 9 ), range );
 	}
 
-	return p12 / sqrt( sq1 * sq2 );
+	return p12 / CA_RSqrt( sq1 * sq2 );
 }
 
 float CA_GetCosValueIU( ca_cassy_t cassy, ca_range_t range )
@@ -574,7 +574,7 @@ float CA_GetCosValueIU( ca_cassy_t cassy, ca_range_t range )
 		p12 = CA_ConvertToRange( CA_ReadIntFromData( response, 9 ), range );
 	}
 
-	return p12 / sqrt( sq1 * sq2 );
+	return p12 / CA_RSqrt( sq1 * sq2 );
 }
 
 void CA_SendSerialSensorDataA( ca_cassy_t cassy, uint8_t bits, uint16_t data )

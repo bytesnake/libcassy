@@ -1,8 +1,13 @@
 CC=gcc
-CFLAGS=-x c -g -I../../include -DCA_LIBUSB
-LDFLAGS=-L../../binary -lcassy -lusb-1.0 -Wl,-rpath=../../binary
+CFLAGS=-g -I../../include
+LDFLAGS=-L../../binary -lcassy -Wl,-rpath=../../binary
 
+all: oscillocont oscillotest readstream
+oscillocont: oscillocont.c
+	$(CC) $(CFLAGS) -DCA_DEVNODES oscillocont.c $(LDFLAGS) -o oscillocont
+oscillotest: oscillotest.c
+	$(CC) $(CFLAGS) -DCA_DEVNODES oscillotest.c $(LDFLAGS) -o oscillotest
+readstream: readstream.c
+	$(CC) $(CFLAGS) -DCA_DEVNODES readstream.c $(LDFLAGS) -o readstream
 clean:
-	rm -f oscillotest oscillocont readstream
-%:
-	$(CC) $(CFLAGS) $@.c $(LDFLAGS) -o $@
+	rm -f oscillocont oscillotest readstream

@@ -132,3 +132,22 @@ void CA_PrintData( ca_data_t data, char *desc )
 	printf( "\n" );
 	fflush( stdout );
 }
+
+// credit to John Carmack, I just wanted to get rid of the unnecessary math link
+
+float CA_RSqrt( float number )
+{
+	long i;
+	float x, y;
+
+	x = number * 0.5;
+	y = number;
+
+	i = *(long *) &y;
+	i = 0x5f3759df - (i >> 1);
+
+	y = *(float *) &i;
+	y = y * (1.5 - (x * y * y));
+
+	return y;
+}
