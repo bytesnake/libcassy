@@ -8,8 +8,17 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdbool.h>
 #include <stdio.h>
+
+#ifdef _Bool
+#include <stdbool.h>
+#else // bad compiler (e.g. MVSC)
+
+#define bool int
+#define true 1
+#define false 0
+
+#endif
 
 #include <time.h> // only for tm struct
 
