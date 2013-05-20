@@ -16,7 +16,7 @@ void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata )
 
 	CA_ResetError();
 
-	blocksize = CA_GETBLOCKSIZE( cassy.version );
+	blocksize = CA_GetBlocksize( cassy.version );
 	rawdata = CA_ConstructPacket( CA_GetCassyAddress( cassy.id ), serialdata, blocksize );
 
 	for ( offset = 0; offset < rawdata.length; offset += blocksize )
@@ -54,7 +54,7 @@ ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen )
 
 	CA_ResetError();
 
-	blocksize = CA_GETBLOCKSIZE( cassy.version );
+	blocksize = CA_GetBlocksize( cassy.version );
 	response = CA_AllocateData( blocksize );
 
 	serialdata.length = 0;
@@ -102,7 +102,7 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 
 	CA_ResetError();
 
-	blocksize = CA_GETBLOCKSIZE( cassy.version );
+	blocksize = CA_GetBlocksize( cassy.version );
 	response = CA_AllocateData( blocksize );
 
 	stream.length = 0;

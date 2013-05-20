@@ -27,6 +27,10 @@ void CA_SetDateTime( ca_cassy_t cassy, struct tm time );
 
 uint8_t CA_GetSlaveAddress( ca_cassy_t cassy );
 void CA_SetSlaveAddress( ca_cassy_t cassy, uint8_t addr );
+
+void CA_GetBluetoothName( ca_cassy_t cassy, char *name );
+void CA_SetBluetoothName( ca_cassy_t cassy, const char *name );
+
 bool CA_GetSlaveActive( ca_cassy_t cassy );
 
 void CA_SetWatchdog( ca_cassy_t cassy, bool watchdog );

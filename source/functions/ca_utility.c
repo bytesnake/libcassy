@@ -264,6 +264,37 @@ void CA_SetSlaveAddress( ca_cassy_t cassy, uint8_t addr )
 	CA_FreeData( &response );
 }
 
+void CA_GetBluetoothName( ca_cassy_t cassy, char *name )
+{
+	ca_data_t command, response;
+
+	command = CA_SetupCommandFrame( CA_FID_SETBLUETOOTHNAME, 0 );
+
+	response = CA_ExecuteCommand( cassy, command, 21 );
+	CA_FreeData( &command );
+
+	if ( CA_IsCassyError( response ) )
+		memset( name, 0, 20 );
+	else
+		strncpy( name, (char *) (response.data + 1), 20 );
+
+	CA_FreeData( &response );
+}
+
+void CA_SetBluetoothName( ca_cassy_t cassy, const char *name )
+{
+	ca_data_t command, response;
+
+	command = CA_SetupCommandFrame( CA_FID_SETBLUETOOTHNAME, 20 );
+	strncpy( (char *) (command.data + 1), name, 20 );
+
+	response = CA_ExecuteCommand( cassy, command, 1 );
+	CA_FreeData( &command );
+
+	CA_IsCassyError( response );
+	CA_FreeData( &response );
+}
+
 bool CA_GetSlaveActive( ca_cassy_t cassy )
 {
 	ca_data_t command, response;

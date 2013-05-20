@@ -7,11 +7,14 @@
 // macros
 //
 
+#ifdef CA_LOCAL
+
 #define CA_NEXTBLOCK( length, blocksize ) ((length / blocksize + 1) * blocksize )
-#define CA_GETBLOCKSIZE( version ) (version == CA_VERSION_SENSORCASSY2 ? CA_BLOCKSIZEV2 : CA_BLOCKSIZEV1)
+
+#endif
 
 //
-// constants
+// compiler flags
 //
 
 // #define CA_LOCAL
@@ -22,14 +25,23 @@
 // #define CA_DEBUG_NOWRITE
 // #define CA_DEBUG_NOREAD
 
-#define CA_BLOCKSIZEV1 8
-#define CA_BLOCKSIZEV2 64
+//
+// internal constants
+//
+
+#ifdef CA_LOCAL
 
 #define CA_USB_ONEPACKET 0
 #define CA_USB_NORESPONSE 0
 #define CA_USB_TIMEOUT 1000
 
 #define CA_STREAM_CHUNKSIZE 256
+
+#endif
+
+//
+// external constants
+//
 
 #define CA_OSTATUS_RUNNING 0
 #define CA_OSTATUS_WAITING 1

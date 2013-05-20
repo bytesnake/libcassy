@@ -25,6 +25,7 @@ int16_t CA_SignExtendShort( uint16_t digits, int bits );
 int32_t CA_SignExtendInt( uint32_t digits, int bits );
 
 uint8_t CA_GetCassyAddress( int id );
+int CA_GetBlocksize( ca_version_t version );
 
 float CA_ConvertToRange( int value, ca_range_t range );
 int CA_ConvertFromRange( float value, ca_range_t range );

@@ -79,6 +79,14 @@ uint8_t CA_GetCassyAddress( int id )
 	return 0x00;
 }
 
+int CA_GetBlocksize( ca_version_t version )
+{
+	if ( version == CA_VERSION_SENSORCASSY2 || version == CA_VERSION_POCKETCASSY2 )
+		return 64;
+	else
+		return 8;
+}
+
 float CA_ConvertToRange( int value, ca_range_t range )
 {
 	switch (range)
