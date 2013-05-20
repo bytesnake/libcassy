@@ -75,7 +75,6 @@ void CA_ResizeStream( ca_stream_t *stream, int length );
 void CA_FreeStream( ca_stream_t *stream );
 
 ca_oarray_t CA_AllocateOscilloscopeArray( int length );
-void CA_FreeOscilloscopeArray( ca_oarray_t *oarray );
 
 ca_sclass_t CA_ClassifyStreamByte( uint8_t b );
 
@@ -110,6 +109,12 @@ ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t serialdata, int rlen );
 
 ca_error_t CA_GetLastError();
 const char *CA_ErrorToString( ca_error_t error );
+
+//
+// ca_stream.c
+//
+
+void CA_FreeOscilloscopeArray( ca_oarray_t *oarray );
 
 //
 // ca_inout_*.c
