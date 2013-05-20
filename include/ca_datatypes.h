@@ -20,6 +20,10 @@ typedef struct {
 } *ca_handle_t;
 #endif
 
+#ifdef CA_WINHID
+typedef void *ca_handle_t;
+#endif
+
 typedef struct
 {
 	int length;
