@@ -98,7 +98,7 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 	ca_data_t response, serialdata;
 	int blocksize, i;
 	uint8_t status, ob;
-	bool overflow, finished;
+	int overflow, finished;
 
 	CA_ResetError();
 
@@ -108,8 +108,8 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 	stream.length = 0;
 	stream.offset = 0;
 
-	overflow = false;
-	finished = false;
+	overflow = 0;
+	finished = 0;
 
 	status = 0;
 	ob = 0;
@@ -137,7 +137,7 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 			{
 				CA_Add13BitToStream( &stream, (((uint16_t) ob) << 8) + CA_ReadByteFromData( serialdata, i ) );
 				i += 1;
-				overflow = false;
+				overflow = 0;
 
 				continue;
 			}
@@ -158,7 +158,7 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 				if ( i == serialdata.length - 1 )
 				{
 					ob = CA_ReadByteFromData( serialdata, i );
-					overflow = true;
+					overflow = 1;
 					i += 1;
 				}
 				else
@@ -169,11 +169,11 @@ ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range )
 
 				break;
 			case CA_SCLASS_END:
-				finished = true;
+				finished = 1;
 				break;
 			case CA_SCLASS_UNKNOWN:
 				CA_SetLastError( CA_ERROR_STREAM_INVALID );
-				finished = true;
+				finished = 1;
 			}
 		}
 

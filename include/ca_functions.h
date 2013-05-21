@@ -31,9 +31,9 @@ void CA_SetSlaveAddress( ca_cassy_t cassy, uint8_t addr );
 void CA_GetBluetoothName( ca_cassy_t cassy, char *name );
 void CA_SetBluetoothName( ca_cassy_t cassy, const char *name );
 
-bool CA_GetSlaveActive( ca_cassy_t cassy );
+int CA_GetSlaveActive( ca_cassy_t cassy );
 
-void CA_SetWatchdog( ca_cassy_t cassy, bool watchdog );
+void CA_SetWatchdog( ca_cassy_t cassy, int watchdog );
 
 //
 // ca_analogin.c

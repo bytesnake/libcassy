@@ -13,10 +13,10 @@ void CA_ResetError()
 	lasterror = CA_ERROR_SUCCESS;
 }
 
-bool CA_IsCassyError( ca_data_t data )
+int CA_IsCassyError( ca_data_t data )
 {
 	if ( CA_GetLastError() == CA_ERROR_SUCCESS && data.data[0] == 0x01 )
-		return false;
+		return 0;
 
 	if ( data.data[0] == 0x02 )
 		CA_SetLastError( CA_ERROR_CASSY_OVERFLOW );
@@ -25,7 +25,7 @@ bool CA_IsCassyError( ca_data_t data )
 	else
 		CA_SetLastError( CA_ERROR_CASSY );
 
-	return true;
+	return 1;
 }
 
 ca_error_t CA_GetLastError()

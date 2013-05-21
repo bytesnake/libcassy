@@ -1,6 +1,6 @@
 #include "../include/libcassy.h"
 
-bool CA_IsBigEndian()
+int CA_IsBigEndian()
 {
 	static uint16_t s = 0x0001;
 

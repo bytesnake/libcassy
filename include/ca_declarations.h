@@ -43,7 +43,7 @@ float CA_RSqrt( float number );
 void CA_SetLastError( ca_error_t error );
 void CA_ResetError();
 
-bool CA_IsCassyError( ca_data_t data );
+int CA_IsCassyError( ca_data_t data );
 
 //
 // ca_data.c

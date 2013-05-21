@@ -295,10 +295,10 @@ void CA_SetBluetoothName( ca_cassy_t cassy, const char *name )
 	CA_FreeData( &response );
 }
 
-bool CA_GetSlaveActive( ca_cassy_t cassy )
+int CA_GetSlaveActive( ca_cassy_t cassy )
 {
 	ca_data_t command, response;
-	bool active;
+	int active;
 
 	command = CA_SetupCommandFrame( CA_FID_GETSLAVEACTIVE, 0 );
 
@@ -306,7 +306,7 @@ bool CA_GetSlaveActive( ca_cassy_t cassy )
 	CA_FreeData( &command );
 
 	if( CA_IsCassyError( response ) )
-		active = false;
+		active = 0;
 	else
 		active = CA_ReadByteFromData( response, 1 );
 
@@ -315,7 +315,7 @@ bool CA_GetSlaveActive( ca_cassy_t cassy )
 	return active;
 }
 
-void CA_SetWatchdog( ca_cassy_t cassy, bool watchdog )
+void CA_SetWatchdog( ca_cassy_t cassy, int watchdog )
 {
 	ca_data_t command;
 

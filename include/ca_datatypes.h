@@ -126,7 +126,7 @@ typedef struct
 {
 	char *idstr;
 	ca_version_t version;
-	bool id[8];
+	int id[8];
 } ca_device_t;
 
 typedef struct
