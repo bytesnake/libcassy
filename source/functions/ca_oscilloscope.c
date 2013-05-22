@@ -169,7 +169,7 @@ ca_oarray_t CA_GetOscilloscopeArrayA( ca_cassy_t cassy, ca_range_t range, uint16
 	CA_WriteShortToData( command, 3, count );
 	CA_WriteShortToData( command, 5, delta );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );
@@ -184,7 +184,7 @@ ca_oarray_t CA_GetOscilloscopeArrayB( ca_cassy_t cassy, ca_range_t range, uint16
 	CA_WriteShortToData( command, 3, count );
 	CA_WriteShortToData( command, 5, delta );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );
@@ -199,7 +199,7 @@ ca_oarray_t CA_GetOscilloscopeArrayX( ca_cassy_t cassy, ca_range_t range, uint16
 	CA_WriteShortToData( command, 3, count );
 	CA_WriteShortToData( command, 5, delta );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );
@@ -214,7 +214,7 @@ ca_oarray_t CA_GetOscilloscopeArrayY( ca_cassy_t cassy, ca_range_t range, uint16
 	CA_WriteShortToData( command, 3, count );
 	CA_WriteShortToData( command, 5, delta );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );
@@ -229,7 +229,7 @@ ca_oarray_t CA_GetOscilloscopeArray2A( ca_cassy_t cassy, ca_range_t range, uint3
 	CA_WriteIntToData( command, 2, skip );
 	CA_WriteIntToData( command, 6, count );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );
@@ -244,7 +244,7 @@ ca_oarray_t CA_GetOscilloscopeArray2B( ca_cassy_t cassy, ca_range_t range, uint3
 	CA_WriteIntToData( command, 2, skip );
 	CA_WriteIntToData( command, 6, count );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 
 	return CA_RecvOscilloscopeArray( cassy, range );

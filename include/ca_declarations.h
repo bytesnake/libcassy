@@ -57,14 +57,17 @@ void CA_CopyData( ca_data_t dest, ca_data_t src, int di, int si, int length );
 void CA_WriteByteToData( ca_data_t dest, int pos, uint8_t b );
 void CA_WriteShortToData( ca_data_t dest, int pos, uint16_t s );
 void CA_WriteIntToData( ca_data_t dest, int pos, uint32_t i );
+
 uint8_t CA_ReadByteFromData( ca_data_t src, int pos );
 uint16_t CA_ReadShortFromData( ca_data_t src, int pos );
 uint32_t CA_ReadIntFromData( ca_data_t src, int pos );
 
-ca_data_t CA_ReadSerialData( ca_data_t rawdata, int blocksize );
-void CA_AppendSerialData( ca_data_t *serialdata, ca_data_t *rawdata, int blocksize );
-ca_data_t CA_ConstructPacket( uint8_t address, ca_data_t serialdata, int blocksize );
 ca_data_t CA_SetupCommandFrame( uint8_t fid, int length );
+
+ca_data_t CA_ConstructSerialData( uint8_t address, ca_data_t command );
+
+ca_data_t CA_ConstructUSBReports( uint8_t address, ca_data_t command, int blocksize );
+void CA_DeconstructUSBReport( ca_data_t usbreport, ca_data_t response, int *offset, int blocksize );
 
 //
 // ca_stream.c
@@ -90,12 +93,32 @@ ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length );
 // ca_inout.c
 //
 
-void CA_SendSerialData( ca_cassy_t cassy, ca_data_t serialdata );
-ca_data_t CA_RecvSerialData( ca_cassy_t cassy, int rlen );
+void CA_SendCommandSerial( ca_cassy_t cassy, ca_data_t command );
+ca_data_t CA_RecvDataSerial( ca_cassy_t cassy, int rlength );
+
+void CA_SendCommandUSB( ca_cassy_t cassy, ca_data_t command );
+ca_data_t CA_RecvDataUSB( ca_cassy_t cassy, int rlength );
+
+ca_stream_t CA_RecvStreamSerial( ca_cassy_t cassy, int withstatus );
+ca_stream_t CA_RecvStreamUSB( ca_cassy_t cassy, int withstatus );
 
 ca_oarray_t CA_RecvOscilloscopeArray( ca_cassy_t cassy, ca_range_t range );
 
-ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t serialdata, int rlen );
+ca_data_t CA_ExecuteCommand( ca_cassy_t cassy, ca_data_t command, int rlength );
+
+//
+// ca_inout_*.c
+//
+
+void CA_IO_WriteSerial( ca_handle_t handle, uint8_t *data, int length );
+void CA_IO_ReadSerial( ca_handle_t handle, uint8_t *data, int length );
+
+void CA_IO_WriteUSB( ca_handle_t handle, uint8_t *data, int length );
+void CA_IO_ReadUSB( ca_handle_t handle, uint8_t *data, int length );
+
+// bluetooth write and read
+
+ca_iomode_t CA_IO_GetIOMode( ca_handle_t handle );
 
 #endif
 
@@ -130,9 +153,6 @@ ca_device_t *CA_FindDevices();
 void CA_FreeDevices( ca_device_t *devices );
 
 ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id );
-
-void CA_SendData( ca_handle_t handle, uint8_t *data, int length );
-void CA_RecvData( ca_handle_t handle, uint8_t *data, int length );
 
 //
 // cassy functions

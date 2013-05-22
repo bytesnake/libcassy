@@ -4,6 +4,7 @@ ca_stream_t CA_AllocateStream( int length )
 {
 	ca_stream_t stream;
 
+	stream.status = 0;
 	stream.data = (int16_t *) malloc( length * sizeof (int16_t) );
 	stream.length = length;
 	stream.offset = 0;
@@ -28,6 +29,7 @@ void CA_FreeStream( ca_stream_t *stream )
 
 	stream->length = 0;
 	stream->offset = 0;
+	stream->status = 0;
 	free( stream->data );
 }
 
@@ -107,6 +109,7 @@ ca_oarray_t CA_StreamToOscilloscopeArray( ca_stream_t stream, ca_range_t range )
 	CA_ResetError();
 
 	oarray = CA_AllocateOscilloscopeArray( stream.offset );
+	oarray.status = stream.status;
 
 	for ( i = 0; i < stream.offset; i++ )
 	{
@@ -155,7 +158,7 @@ ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length )
 		}
 	}
 
-	CA_WriteByteToData( data, j, 0b0010000 ); // end of stream
+	CA_WriteByteToData( data, j, 0b0010000 );
 	data.length = j + 1;
 
 	return data;

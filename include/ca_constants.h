@@ -22,8 +22,6 @@
 // #define CA_LIBUSB
 
 // #define CA_DEBUG_PRINT
-// #define CA_DEBUG_NOWRITE
-// #define CA_DEBUG_NOREAD
 
 //
 // internal constants
@@ -31,9 +29,7 @@
 
 #ifdef CA_LOCAL
 
-#define CA_USB_ONEPACKET 0
-#define CA_USB_NORESPONSE 0
-#define CA_USB_TIMEOUT 1000
+#define CA_INOUT_NORESPONSE 0
 
 #define CA_STREAM_CHUNKSIZE 256
 

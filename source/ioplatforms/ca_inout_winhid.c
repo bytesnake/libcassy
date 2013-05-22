@@ -4,6 +4,31 @@
 // Work in progres...
 //
 
+void CA_IO_WriteSerial( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_WRITE );
+}
+
+void CA_IO_ReadSerial( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_READ );
+}
+
+void CA_IO_WriteUSB( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_WRITE );
+}
+
+void CA_IO_ReadUSB( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_READ );
+}
+
+ca_iomode_t CA_IO_GetIOMode( ca_handle_t handle )
+{
+	return CA_IOMODE_USB;
+}
+
 void CA_Init()
 {
 
@@ -45,14 +70,4 @@ ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 	cassy.version = expected;
 
 	return cassy;
-}
-
-void CA_SendData( ca_handle_t handle, uint8_t *data, int length )
-{
-
-}
-
-void CA_RecvData( ca_handle_t handle, uint8_t *data, int length )
-{
-
 }

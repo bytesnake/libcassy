@@ -34,6 +34,7 @@ typedef struct
 {
 	int length;
 	int offset;
+	uint8_t status;
 	int16_t *data;
 } ca_stream_t;
 
@@ -113,6 +114,13 @@ typedef enum
 	CA_WAVE_TRIANGLEZERO = 5,
 	CA_WAVE_USERDEFINED = 6
 } ca_wave_t;
+
+typedef enum
+{
+	CA_IOMODE_SERIAL,
+	CA_IOMODE_USB,
+	CA_IOMODE_BLUETOOTH
+} ca_iomode_t;
 
 typedef struct
 {

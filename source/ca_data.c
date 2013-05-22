@@ -67,12 +67,22 @@ uint32_t CA_ReadIntFromData( ca_data_t src, int pos )
 	return CA_SwitchInt( *(uint32_t *) (src.data + pos) );
 }
 
-ca_data_t CA_PrepareSerialData( uint8_t address, ca_data_t rawdata )
+ca_data_t CA_SetupCommandFrame( uint8_t fid, int length )
+{
+	ca_data_t command;
+
+	command = CA_AllocateData( length + 1 );
+	command.data[0] = fid;
+
+	return command;
+}
+
+ca_data_t CA_ConstructSerialData( uint8_t address, ca_data_t command )
 {
 	ca_data_t serialdata;
 	int si, ri;
 
-	serialdata = CA_AllocateData( rawdata.length * 2 + 2 );
+	serialdata = CA_AllocateData( command.length * 2 + 2 );
 
 	serialdata.data[0] = 0x1B;
 	serialdata.data[1] = address;
@@ -80,15 +90,15 @@ ca_data_t CA_PrepareSerialData( uint8_t address, ca_data_t rawdata )
 	si = 2;
 	ri = 0;
 
-	while ( ri < rawdata.length )
+	while ( ri < command.length )
 	{
-		if ( rawdata.data[ri] == 0x1B )
+		if ( command.data[ri] == 0x1B )
 		{
 			serialdata.data[si++] = 0x1B;
 			serialdata.data[si++] = 0x1B;
 		}
 		else
-			serialdata.data[si++] = rawdata.data[ri];
+			serialdata.data[si++] = command.data[ri];
 
 		ri++;
 	}
@@ -98,78 +108,33 @@ ca_data_t CA_PrepareSerialData( uint8_t address, ca_data_t rawdata )
 	return serialdata;
 }
 
-ca_data_t CA_ReadSerialData( ca_data_t rawdata, int blocksize )
+ca_data_t CA_ConstructUSBReports( uint8_t address, ca_data_t command, int blocksize )
 {
-	ca_data_t serialdata;
-	int length;
-	int si, ri;
-
-	serialdata = CA_AllocateData( rawdata.length );
-
-	si = 0;
-	ri = 0;
-
-	while ( ri < rawdata.length )
-	{
-		if ( rawdata.data[ri] < blocksize )
-			length = rawdata.data[ri++];
-		else
-			length = blocksize;
-
-		if ( ri + length > rawdata.length )
-			length = rawdata.length - ri;
-
-		CA_CopyData( serialdata, rawdata, si, ri, length );
-
-		si += length;
-		ri += length;
-	}
-
-	serialdata.length = si;
-
-	return serialdata;
-}
-
-void CA_AppendSerialData( ca_data_t *serialdata, ca_data_t *rawdata, int blocksize )
-{
-	ca_data_t newdata;
-
-	CA_ResizeData( serialdata, serialdata->length + blocksize );
-	newdata = CA_ReadSerialData( *rawdata, blocksize );
-
-	CA_CopyData( *serialdata, newdata, serialdata->length - blocksize, 0, newdata.length );
-	serialdata->length -= blocksize - newdata.length;
-
-	CA_FreeData( &newdata );
-}
-
-ca_data_t CA_ConstructPacket( uint8_t address, ca_data_t serialdata, int blocksize )
-{
-	ca_data_t prepdata, rawdata;
+	ca_data_t serialdata, usbreports;
 	int length;
 	int pi, ri;
 
-	prepdata = CA_PrepareSerialData( address, serialdata );
-	rawdata = CA_AllocateData( CA_NEXTBLOCK( prepdata.length + prepdata.length / blocksize, blocksize ) );
+	serialdata = CA_ConstructSerialData( address, command );
+	usbreports = CA_AllocateData( CA_NEXTBLOCK( serialdata.length + serialdata.length / blocksize, blocksize ) );
 
 	pi = 0;
 	ri = 0;
 
-	while ( pi < prepdata.length )
+	while ( pi < serialdata.length )
 	{
-		if ( prepdata.data[pi] >= blocksize && prepdata.length - pi >= blocksize )
+		if ( serialdata.data[pi] >= blocksize && serialdata.length - pi >= blocksize )
 		{
-			CA_CopyData( rawdata, prepdata, ri, pi, blocksize );
+			CA_CopyData( usbreports, serialdata, ri, pi, blocksize );
 
 			pi += blocksize;
 		}
 		else
 		{
-			length = prepdata.length - pi;
+			length = serialdata.length - pi;
 			length = length >= blocksize ? blocksize - 1 : length;
 
-			CA_CopyData( rawdata, prepdata, ri + 1, pi, length );
-			rawdata.data[ri] = (uint8_t) length;
+			CA_CopyData( usbreports, serialdata, ri + 1, pi, length );
+			usbreports.data[ri] = (uint8_t) length;
 
 			pi += length;
 		}
@@ -177,19 +142,30 @@ ca_data_t CA_ConstructPacket( uint8_t address, ca_data_t serialdata, int blocksi
 		pi += blocksize;
 	}
 
-	rawdata.length = CA_NEXTBLOCK( ri, blocksize );
+	usbreports.length = CA_NEXTBLOCK( ri, blocksize );
 
-	CA_FreeData( &prepdata );
+	CA_FreeData( &serialdata );
 
-	return rawdata;
+	return usbreports;
 }
 
-ca_data_t CA_SetupCommandFrame( uint8_t fid, int length )
+void CA_DeconstructUSBReport( ca_data_t usbreport, ca_data_t response, int *offset, int blocksize )
 {
-	ca_data_t command;
+	int length;
+	uint8_t b;
 
-	command = CA_AllocateData( length + 1 );
-	command.data[0] = fid;
+	b = CA_ReadByteFromData( usbreport, 0 );
 
-	return command;
+	if ( b < blocksize )
+	{
+		length = b > response.length - *offset ? response.length - *offset : b;
+		CA_CopyData( response, usbreport, *offset, 1, length );
+	}
+	else
+	{
+		length = blocksize > response.length - *offset ? response.length - *offset : blocksize;
+		CA_CopyData( response, usbreport, *offset, 0, length );
+	}
+
+	*offset += length;
 }

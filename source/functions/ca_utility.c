@@ -6,7 +6,7 @@ void CA_Reset( ca_cassy_t cassy )
 
 	command = CA_SetupCommandFrame( CA_FID_RESET, 0 );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 }
 
@@ -322,6 +322,6 @@ void CA_SetWatchdog( ca_cassy_t cassy, int watchdog )
 	command = CA_SetupCommandFrame( CA_FID_SETWATCHDOG, 1 );
 	CA_WriteByteToData( command, 1, watchdog );
 
-	CA_ExecuteCommand( cassy, command, CA_USB_NORESPONSE );
+	CA_ExecuteCommand( cassy, command, CA_INOUT_NORESPONSE );
 	CA_FreeData( &command );
 }

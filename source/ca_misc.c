@@ -81,10 +81,15 @@ uint8_t CA_GetCassyAddress( int id )
 
 int CA_GetBlocksize( ca_version_t version )
 {
-	if ( version == CA_VERSION_SENSORCASSY2 || version == CA_VERSION_POCKETCASSY2 )
+	switch ( version )
+	{
+	case CA_VERSION_SENSORCASSY2:
+	case CA_VERSION_POCKETCASSY2:
+	case CA_VERSION_UNKNOWN:
 		return 64;
-	else
+	default:
 		return 8;
+	}
 }
 
 float CA_ConvertToRange( int value, ca_range_t range )

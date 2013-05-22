@@ -1,5 +1,40 @@
 #include "../../include/libcassy.h"
 
+void CA_IO_WriteSerial( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_WRITE );
+}
+
+void CA_IO_ReadSerial( ca_handle_t handle, uint8_t *data, int length )
+{
+	CA_SetLastError( CA_ERROR_IO_READ );
+}
+
+void CA_IO_WriteUSB( ca_handle_t handle, uint8_t *data, int length )
+{
+	int trans;
+
+	CA_ResetError();
+
+	if ( libusb_interrupt_transfer( handle, 0x02, data, length, &trans, 1000 ) != 0 )
+		CA_SetLastError( CA_ERROR_IO_WRITE );
+}
+
+void CA_IO_ReadUSB( ca_handle_t handle, uint8_t *data, int length )
+{
+	int trans;
+
+	CA_ResetError();
+
+	if ( libusb_interrupt_transfer( handle, 0x81, data, length, &trans, 1000 ) != 0 )
+		CA_SetLastError( CA_ERROR_IO_READ );
+}
+
+ca_iomode_t CA_IO_GetIOMode( ca_handle_t handle )
+{
+	return CA_IOMODE_USB;
+}
+
 void CA_Init()
 {
 	CA_ResetError();
@@ -131,10 +166,10 @@ ca_device_t *CA_FindDevices()
 
 		devices[j].version = CA_GetVersionFromPID( desc.idProduct );
 
-		devices[j].id[0] = true; // TODO
+		devices[j].id[0] = 1; // TODO
 
 		for ( k = 1; k < 8; k++ )
-			devices[j].id[k] = false;
+			devices[j].id[k] = 0;
 
 		j++;
 	}
@@ -162,24 +197,4 @@ ca_cassy_t CA_OpenCassy( ca_handle_t handle, ca_version_t expected, int id )
 	cassy.version = expected; // could be inferred from the device pid
 
 	return cassy;
-}
-
-void CA_SendData( ca_handle_t handle, uint8_t *data, int length )
-{
-	int trans;
-
-	CA_ResetError();
-
-	if ( libusb_interrupt_transfer( handle, 0x02, data, length, &trans, CA_USB_TIMEOUT ) != 0 )
-		CA_SetLastError( CA_ERROR_IO_WRITE );
-}
-
-void CA_RecvData( ca_handle_t handle, uint8_t *data, int length )
-{
-	int trans;
-
-	CA_ResetError();
-
-	if ( libusb_interrupt_transfer( handle, 0x81, data, length, &trans, CA_USB_TIMEOUT ) != 0 )
-		CA_SetLastError( CA_ERROR_IO_READ );
 }
