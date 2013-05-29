@@ -73,7 +73,7 @@ struct termios *CA_PrepareSerialDevice( int filedesc )
 	cfsetispeed( &settings, B38400 );
 	cfmakeraw( &settings );
 
-	settings.c_cc[VMIN] = 8;
+	settings.c_cc[VMIN] = 1;
 	settings.c_cc[VTIME] = 0;
 
 	settings.c_cflag &= ~(CSTOPB | CRTSCTS);

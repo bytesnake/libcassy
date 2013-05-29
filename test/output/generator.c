@@ -19,7 +19,7 @@ int main( int argc, char **argv )
 	CA_Init();
 
 	handle = CA_GetDeviceHandle( argv[1] );
-	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
+	cassy = CA_OpenCassy( handle, CA_VERSION_POWERCASSY, 1 );
 
 	input = fopen( argv[4], "r" );
 	length = 0;

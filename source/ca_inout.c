@@ -160,11 +160,14 @@ ca_stream_t CA_RecvStreamUSB( ca_cassy_t cassy, int withstatus )
 	usbreport = CA_AllocateData( blocksize );
 	serialdata = CA_AllocateData( blocksize );
 
+	stream.length = 0;
+	stream.offset = 0;
+
 	CA_IO_ReadUSB( cassy.handle, usbreport.data, blocksize );
 
 	if ( CA_GetLastError() != CA_ERROR_SUCCESS )
 		return stream;
-	else if ( usbreport.data[0] < blocksize && usbreport.data[1] == 0x01 )
+	else if ( usbreport.data[0] < blocksize && usbreport.data[1] != 0x01 )
 	{
 		CA_SetLastError( CA_ERROR_CASSY );
 		return stream;
@@ -189,7 +192,7 @@ ca_stream_t CA_RecvStreamUSB( ca_cassy_t cassy, int withstatus )
 
 	while ( !finished )
 	{
-		while ( i < length )
+		while ( !finished && i < length )
 		{
 			b = CA_ReadByteFromData( serialdata, i );
 
@@ -217,6 +220,7 @@ ca_stream_t CA_RecvStreamUSB( ca_cassy_t cassy, int withstatus )
 				ob = b;
 				i += 1;
 				overflow = 1;
+				break;
 			case CA_SCLASS_UNKNOWN:
 				CA_SetLastError( CA_ERROR_STREAM_INVALID );
 				return stream;

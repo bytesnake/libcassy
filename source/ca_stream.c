@@ -132,7 +132,7 @@ ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length )
 
 	data = CA_AllocateData( length * 2 + 2 );
 	CA_WriteByteToData( data, 0, fid );
-	CA_WriteShortToData( data, 1, values[0] );
+	CA_WriteShortToData( data, 1, 0b0001111111111111 & values[0] );
 
 	j = 3;
 
@@ -158,7 +158,7 @@ ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length )
 		}
 	}
 
-	CA_WriteByteToData( data, j, 0b0010000 );
+	CA_WriteByteToData( data, j, 0b00100000 );
 	data.length = j + 1;
 
 	return data;
