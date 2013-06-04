@@ -213,7 +213,7 @@ ca_stream_t CA_RecvStreamUSB( ca_cassy_t cassy, int withstatus )
 				i += 1;
 				break;
 			case CA_SCLASS_7BIT:
-				CA_Add3BitToStream( &stream, b );
+				CA_Add7BitToStream( &stream, b );
 				i += 1;
 				break;
 			case CA_SCLASS_13BIT:

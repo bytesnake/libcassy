@@ -154,7 +154,7 @@ void CA_LimitOutputRangeY( ca_cassy_t cassy, float min, float max );
 
 void CA_ResetFunctionGenerator( ca_cassy_t cassy, ca_wave_t wave, uint32_t frequency, float amplitude, float offset, uint8_t ratio );
 
-uint32_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length );
+uint16_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length );
 
 void CA_StartFunctionGenerator( ca_cassy_t cassy );
 void CA_StopFunctionGenerator( ca_cassy_t cassy );

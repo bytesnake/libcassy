@@ -18,20 +18,20 @@ void CA_ResetFunctionGenerator( ca_cassy_t cassy, ca_wave_t wave, uint32_t frequ
 	CA_FreeData( &response );
 }
 
-uint32_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length )
+uint16_t CA_DefineWaveForm( ca_cassy_t cassy, int16_t *values, uint16_t length )
 {
 	ca_data_t command, response;
-	uint32_t count;
+	uint16_t count;
 
 	command = CA_SetupStreamCommandFrame( CA_FID_DEFINEWAVEFORM, values, length );
 
-	response = CA_ExecuteCommand( cassy, command, 5 );
+	response = CA_ExecuteCommand( cassy, command, 3 );
 	CA_FreeData( &command );
 
 	if ( CA_IsCassyError( response ) )
 		count = 0;
 	else
-		count = CA_ReadIntFromData( response, 1 );
+		count = CA_ReadShortFromData( response, 1 );
 
 	CA_FreeData( &response );
 
