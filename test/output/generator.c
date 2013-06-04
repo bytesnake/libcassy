@@ -25,7 +25,7 @@ int main( int argc, char **argv )
 	length = 0;
 
 	do {
-		fscanf( input, "%i\n", values + length++ );
+		fscanf( input, "%hi\n", values + length++ );
 	} while ( feof( input ) == 0 );
 
 	fclose( input );

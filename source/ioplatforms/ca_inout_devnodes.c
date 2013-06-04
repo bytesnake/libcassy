@@ -14,14 +14,24 @@ void CA_IO_WriteSerial( ca_handle_t handle, uint8_t *data, int length )
 
 void CA_IO_ReadSerial( ca_handle_t handle, uint8_t *data, int length )
 {
-	int trans;
+	int trans, buffsize;
 
 	CA_ResetError();
 
-	trans = read( handle->filedesc, data, length );
+	trans = 0;
 
-	if ( trans != length )
-		CA_SetLastError( CA_ERROR_IO_READ );
+	while ( trans < length )
+	{
+		buffsize = read( handle->filedesc, data + trans, length );
+
+		if ( buffsize <= 0 )
+		{
+			CA_SetLastError( CA_ERROR_IO_READ );
+			break;
+		}
+
+		trans += buffsize;
+	}
 }
 
 void CA_IO_WriteUSB( ca_handle_t handle, uint8_t *data, int length )

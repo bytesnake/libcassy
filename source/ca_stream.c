@@ -134,7 +134,7 @@ ca_data_t CA_SetupStreamCommandFrame( int fid, int16_t *values, int length )
 	CA_WriteByteToData( data, 0, fid );
 	CA_WriteShortToData( data, 1, 0b0001111111111111 & values[0] );
 
-	j = 3;
+	j = 2;
 
 	for ( i = 1; i < length; i++ )
 	{
