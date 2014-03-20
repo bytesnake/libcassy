@@ -48,12 +48,12 @@ int main( int argc, char **argv )
 	handle = CA_GetDeviceHandle( argv[1] );
 	cassy = CA_OpenCassy( handle, CA_VERSION_SENSORCASSY2, 1 );
 
-	CA_GetInputValueA( cassy, CA_RANGE_10V );
+	CA_GetInputValueA( cassy, CA_RANGE_30V );
 
 	CA_ResetOscilloscope2( cassy, interval, 1, 0, values, CA_OMASK_4MMSOCKA, CA_OTRIG_IMMEDIATE, 0 );
 	CA_StartOscilloscope( cassy );
 
-	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_10V, 0, values );
+	oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_30V, 0, values );
 
 	printf( "# Oscilloscope data from %s - interval: %i (ns), values: %i\n", argv[1], interval, values );
 
@@ -61,10 +61,10 @@ int main( int argc, char **argv )
 
 	while ( i < values )
 	{
-		oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_10V, 0, values );
+		oarray = CA_GetOscilloscopeArray2A( cassy, CA_RANGE_30V, 0, values );
 
 		for ( j = 0; j < oarray.length; j++ )
-			plotpoint( (i + j) * interval / 1000, oarray.values[j] * 1000, 10000 );
+			plotpoint( (i + j) * interval / 1000, oarray.values[j] * 1000, 30000 );
 
 		i += j;
 
